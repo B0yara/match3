@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
@@ -10,11 +11,15 @@ public class Board : MonoBehaviour
         public float angle;
     }
 
-
+    
     public int rows;
     public int cols;
     Lastswipe lastswipe;
-
+    int summ =0;
+   int score = 0;
+    public GameObject scale;
+    int multiplexor= 0;
+    public Text scoreLabel;
     Tile[,] spawn;
     public Tile[] prefabTiles;
     public Tile[] prefabStars;
@@ -492,6 +497,8 @@ public class Board : MonoBehaviour
                     matched[x, y] = null;
                      tiles[x, y].OnRemove();
                     tiles[x, y] = null;
+                    summ += 10;
+
 
                 }
 
@@ -521,7 +528,7 @@ public class Board : MonoBehaviour
             if (CheckMatch(tiles))
             {
                 TileDestroyer();
-               
+                multiplexor += 1;
             }
             else
             {
@@ -541,12 +548,16 @@ public class Board : MonoBehaviour
             if (CheckMatch(tiles))
             {
                 TileDestroyer();
-                
+                multiplexor += 1;
             }
             else
             {
                 swipeDesabled = false;
                 lastAction = Actions.Nothing;
+                score+= summ * multiplexor;
+                summ = 0;
+                multiplexor = 0;
+                scoreLabel.text = score.ToString();
             }
             return;
         }
